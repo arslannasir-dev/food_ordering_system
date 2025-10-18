@@ -1103,3 +1103,31 @@ body {
   vertical-align: top;
   margin-left: 5px;
 }
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.status-badge.pending { background: #f0ad4e; }
+.status-badge.delivered { background: #5cb85c; }
+.status-badge.cancelled { background: #d9534f; }
+
+.btn-small {
+  background: #ff7b00;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-small:hover { background: #e46d00; }
+
+.btn-small.disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}

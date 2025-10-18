@@ -89,24 +89,43 @@
   <div id="orders" class="tab-content">
     <h2>All Orders</h2>
     <table id="orderTable" class="display">
-      <thead>
-        <tr><th>ID</th><th>User ID</th><th>Name</th><th>Email</th><th>Total ($)</th><th>Status</th><th>Date</th></tr>
-      </thead>
-      <tbody>
-        {% for order in orders %}
+        <thead>
         <tr>
-          <td>{{ order.id }}</td>
-          <td>{{ order.user_id or 'Guest' }}</td>
-          <td>{{ order.customer_name }}</td>
-          <td>{{ order.email }}</td>
-          <td>{{ '%.2f'|format(order.total_amount) }}</td>
-          <td>{{ order.status }}</td>
-          <td>{{ order.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            <th>ID</th>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Total ($)</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+        <tr id="order-{{ order.id }}">
+            <td>{{ order.id }}</td>
+            <td>{{ order.user_id or 'Guest' }}</td>
+            <td>{{ order.customer_name }}</td>
+            <td>{{ order.email }}</td>
+            <td>{{ '%.2f'|format(order.total_amount) }}</td>
+            <td>
+            <span class="status-badge {{ order.status|lower }}">{{ order.status }}</span>
+            </td>
+            <td>{{ order.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>
+            {% if order.status != 'Delivered' %}
+            <button class="btn-small" onclick="markDelivered('{{ order.id }}')">Mark Delivered</button>
+            {% else %}
+            <button class="btn-small disabled" disabled>Delivered</button>
+            {% endif %}
+            </td>
         </tr>
         {% endfor %}
-      </tbody>
+        </tbody>
     </table>
   </div>
+
 
   <!-- ORDER ITEMS -->
   <div id="items" class="tab-content">
@@ -140,12 +159,118 @@ function showTab(tabName) {
   event.target.classList.add('active');
 }
 
+// Initialize DataTables
 $(document).ready(function() {
   $('#userTable').DataTable();
   $('#orderTable').DataTable();
   $('#itemTable').DataTable();
 });
+
+// 2️⃣ Step 4: Mark Delivered Function
+async function markDelivered(orderId) {
+  const confirmAction = confirm("Mark order #" + orderId + " as Delivered?");
+  if (!confirmAction) return;
+
+  const res = await fetch('/update_order_status', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ order_id: orderId, status: 'Delivered' })
+  });
+
+  const result = await res.json();
+  if (result.success) {
+    const row = document.getElementById('order-' + orderId);
+    const badge = row.querySelector('.status-badge');
+    badge.textContent = 'Delivered';
+    badge.className = 'status-badge delivered';
+
+    const btn = row.querySelector('button');
+    btn.textContent = 'Delivered';
+    btn.disabled = true;
+    btn.classList.add('disabled');
+
+    alert('✅ Order marked as Delivered!');
+  } else {
+    alert(result.error || 'Error updating status');
+  }
+}
 </script>
+
+<!-- 3️⃣ Step 5: Chart.js Analytics -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Safely embed orders JSON data -->
+<script id="orders-data" type="application/json">
+  {{ orders_json | tojson }}
+</script>
+
+<!-- Chart.js Visualization -->
+<script>
+const orders = JSON.parse(document.getElementById('orders-data').textContent);
+const dailySales = {};
+
+// ✅ Build daily sales summary
+orders.forEach(o => {
+  const date = o.created_at ? o.created_at.slice(0, 10) : 'Unknown';
+  dailySales[date] = (dailySales[date] || 0) + (o.total_amount || 0);
+});
+
+const labels = Object.keys(dailySales);
+const data = Object.values(dailySales);
+
+// === Chart 1: Sales per Day ===
+if (labels.length > 0) {
+  new Chart(document.getElementById('salesChart'), {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Sales ($)',
+        data: data,
+        borderColor: '#ff7b00',
+        fill: true,
+        tension: 0.4,
+        backgroundColor: 'rgba(255, 123, 0, 0.2)'
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: true, position: 'bottom' },
+        title: { display: true, text: '📈 Sales per Day' }
+      }
+    }
+  });
+} else {
+  document.getElementById('salesChart').outerHTML = "<p style='text-align:center;color:#999;'>No order data available</p>";
+}
+
+// === Chart 2: Orders by Type ===
+const guestOrders = orders.filter(o => o.is_guest).length;
+const clientOrders = orders.filter(o => !o.is_guest).length;
+
+if (orders.length > 0) {
+  new Chart(document.getElementById('typeChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Guest Orders', 'Client Orders'],
+      datasets: [{
+        data: [guestOrders, clientOrders],
+        backgroundColor: ['#f0ad4e', '#5cb85c']
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { position: 'bottom' },
+        title: { display: true, text: '🧾 Orders by Type' }
+      }
+    }
+  });
+} else {
+  document.getElementById('typeChart').outerHTML = "<p style='text-align:center;color:#999;'>No data to display</p>";
+}
+</script>
+
+
 
 </body>
 </html>

@@ -293,20 +293,39 @@ def admin_login():
 
     return render_template('admin_login.html')
 
+
 @app.route('/admin_dashboard')
 def admin_dashboard():
     users = User.query.all()
     orders = Order.query.order_by(Order.created_at.desc()).all()
     order_items = OrderItem.query.all()
-    foods = Food.query.all()  # Optional – for reference
+
+    # ✅ Convert Order objects into JSON-safe dictionaries
+    order_list = []
+    for o in orders:
+        order_list.append({
+            "id": o.id,
+            "user_id": o.user_id,
+            "customer_name": o.customer_name,
+            "email": o.email,
+            "phone": o.phone,
+            "address": o.address,
+            "total_amount": float(o.total_amount or 0),
+            "created_at": o.created_at.strftime("%Y-%m-%d %H:%M:%S") if o.created_at else "",
+            "is_guest": bool(o.is_guest),
+            "status": o.status
+        })
 
     return render_template(
         'admin_dashboard.html',
         users=users,
         orders=orders,
         order_items=order_items,
-        foods=foods
+        orders_json=order_list  # ✅ pass this version for Chart.js
     )
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

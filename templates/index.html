@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QuickBite | Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header>
+  <h1>🍔 QuickBite</h1>
+  <nav id="navbar">
+    <a href="/">Home</a>
+    <a href="/menu">Menu</a>
+    <a href="/cart">Cart <span id="cart-count" class="cart-badge">0</span></a>
+    <a href="/admin_login">Admin</a>
+  </nav>
+  <button class="nav-toggle" onclick="toggleNav()">☰</button>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+  <!-- <h2>Delicious Food, Fast Delivery</h2>
+  <p>Order your favorite meals anytime, anywhere.</p> -->
+  <a href="/menu">View Menu</a>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+  <div class="feature">
+    <img src="/static/images/delivery.png" alt="Delivery">
+    <h3>Fast Delivery</h3>
+    <p>Hot and fresh food delivered to your door within minutes.</p>
+  </div>
+  <div class="feature">
+    <img src="/static/images/ingredients.png" alt="Fresh Ingredients">
+    <h3>Fresh Ingredients</h3>
+    <p>We use only high-quality, fresh ingredients in every dish.</p>
+  </div>
+  <div class="feature">
+    <img src="/static/images/order.png" alt="Easy Ordering">
+    <h3>Easy Ordering</h3>
+    <p>Simple online ordering with a few clicks and secure payment.</p>
+  </div>
+</section>
+
+<!-- Our Story Section -->
+<section class="our-story">
+  <div class="story-content">
+    <div class="story-image">
+      <img src="/static/images/story.jpg" alt="Our Kitchen">
+    </div>
+    <div class="story-text">
+      <h2>Our Story</h2>
+      <p>
+        At <strong>QuickBite</strong>, we believe great food brings people together. 
+        What started as a small family-run kitchen in 2025 has now become one of the fastest-growing 
+        online food delivery platforms in the city. 
+      </p>
+      <p>
+        We take pride in using the freshest ingredients, quick service, and mouth-watering recipes that 
+        make you come back for more. Whether it’s a juicy burger, cheesy pizza, or crispy fries – we serve happiness on every plate.
+      </p>
+      <a href="/menu" class="story-btn">Order Now →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Popular Dishes -->
+<section class="popular">
+  <h2>🔥 Popular Dishes</h2>
+  <div class="popular-grid">
+    <div class="dish">
+      <img src="/static/images/burger.jpg" alt="Cheeseburger">
+      <h4>Cheeseburger</h4>
+      <p>$6.99</p>
+    </div>
+    <div class="dish">
+      <img src="/static/images/pizza.jpg" alt="Veggie Pizza">
+      <h4>Veggie Pizza</h4>
+      <p>$8.49</p>
+    </div>
+    <div class="dish">
+      <img src="/static/images/fries.jpg" alt="French Fries">
+      <h4>French Fries</h4>
+      <p>$3.49</p>
+    </div>
+  </div>
+  <div class="menu-btn">
+    <a href="/menu">See Full Menu →</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-section">
+      <h4>QuickBite</h4>
+      <p>Serving smiles and hot meals since 2025.</p>
+    </div>
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <a href="/">Home</a>
+      <a href="/menu">Menu</a>
+      <a href="/cart">Cart</a>
+      <a href="/admin">Admin</a>
+    </div>
+    <div class="footer-section">
+      <h4>Follow Us</h4>
+      <div class="social-icons">
+        <a href="#"><img src="/static/images/facebook.png" alt="Facebook">Facebook</a>
+        <a href="#"><img src="/static/images/instagram.png" alt="Instagram">Instagram</a>
+        <a href="#"><img src="/static/images/youtube.png" alt="YouTube">Youtube</a>
+      </div>
+    </div>
+  </div>
+  <p class="copyright">© 2025 QuickBite. All rights reserved.</p>
+</footer>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QuickBite | Admin</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header>
+  <h1>🍔 QuickBite</h1>
+  <nav id="navbar">
+    <a href="/">Home</a>
+    <a href="/menu">Menu</a>
+    <a href="/cart">Cart <span id="cart-count" class="cart-badge">0</span></a>
+    <a href="/admin_login">Admin</a>
+  </nav>
+  <button class="nav-toggle" onclick="toggleNav()">☰</button>
+</header>
+
+<section class="admin-section">
+  <h3>Add New Food</h3>
+  <form id="food-form">
+    <input type="text" id="name" placeholder="Food name" required><br>
+    <input type="number" id="price" placeholder="Price" required><br>
+    <label for="image">Select Image:</label><br>
+    <select id="image">
+      <option value="/static/images/burger.jpg">Burger</option>
+      <option value="/static/images/pizza.jpg">Pizza</option>
+      <option value="/static/images/fries.jpg">Fries</option>
+      <option value="/static/images/wrap.jpg">Wrap</option>
+      <option value="/static/images/pasta.jpg">Pasta</option>
+      <option value="/static/images/biryani.jpg">Biryani</option>
+    </select><br><br>
+    <input type="text" id="category" placeholder="Category" required><br>
+    <button type="submit">Add Food</button>
+  </form>
+</section>
+
+<script>
+document.getElementById('food-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const nameValue = document.getElementById('name').value;
+  const priceValue = parseFloat(document.getElementById('price').value);
+  const imageValue = document.getElementById('image').value || "https://i.imgur.com/8Km9tLL.jpg";
+  const categoryValue = document.getElementById('category').value || "General";
+
+  const data = {
+    name: nameValue,
+    price: priceValue,
+    image: imageValue,
+    category: categoryValue
+  };
+
+  const res = await fetch('/add_food', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(data)
+  });
+
+  if (res.ok) {
+    alert('✅ Food added successfully!');
+    e.target.reset();
+  } else {
+    const error = await res.text();
+    alert('❌ Error adding food: ' + error);
+  }
+});
+</script>
+</body>
+</html>

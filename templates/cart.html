@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QuickBite | Cart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header>
+  <h1>🍔 QuickBite</h1>
+  <nav id="navbar">
+    <a href="/">Home</a>
+    <a href="/menu">Menu</a>
+    <a href="/cart">Cart <span id="cartCount" class="cart-badge">0</span></a>
+    <a href="/admin_login">Admin</a>
+  </nav>
+</header>
+
+<section class="cart-section">
+  <h2>🧾 Order Summary</h2>
+
+  <div id="cart-box" class="cart-box">
+    <div id="cart-items"></div>
+
+    <div class="cart-summary">
+      <p><strong>Subtotal:</strong> <span id="subtotal">$0.00</span></p>
+      <p><strong>Delivery:</strong> <span id="delivery">$2.00</span></p>
+      <hr>
+      <p class="grand-total"><strong>Total:</strong> <span id="total">$0.00</span></p>
+    </div>
+
+    <div class="payment-method">
+      <h4>Payment Method</h4>
+      <label><input type="radio" name="payment" value="Cash" checked> Cash on Delivery</label><br>
+      <label><input type="radio" name="payment" value="Card"> Credit / Debit Card</label><br>
+      <label><input type="radio" name="payment" value="UPI"> UPI / Digital Wallet</label>
+    </div>
+
+    <div class="delivery-time">
+      <p>📦 Estimated Delivery Time: <strong id="eta">30 min</strong></p>
+    </div>
+
+    <div class="cart-buttons">
+      <button class="btn-checkout" onclick="goToGuest()">Checkout as Guest</button>
+      <button class="btn-checkout" onclick="goToRegister()">Create Account & Checkout</button>
+      <button class="btn-checkout" onclick="goToLogin()">Login & Checkout</button>
+    </div>
+  </div>
+</section>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+<script>
+displayCart();
+updateCartCount();
+
+function goToGuest() {
+  window.location.href = '/guest_checkout';
+}
+
+function goToRegister() {
+  window.location.href = '/register_checkout';
+}
+
+function goToLogin() {
+  window.location.href = '/login_checkout';
+}
+</script>
+</body>
+</html>

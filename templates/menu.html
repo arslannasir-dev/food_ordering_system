@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QuickBite | Menu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header>
+  <h1>🍔 QuickBite</h1>
+  <nav id="navbar">
+    <a href="/">Home</a>
+    <a href="/menu">Menu</a>
+    <a href="/cart">Cart <span id="cart-count" class="cart-badge">0</span></a>
+    <a href="/admin_login">Admin</a>
+  </nav>
+  <button class="nav-toggle" onclick="toggleNav()">☰</button>
+</header>
+
+<!-- Filter + Layout Row -->
+<section class="menu-topbar">
+  <div class="filter-bar">
+    <input type="text" id="searchInput" placeholder="Search food...">
+    <select id="categoryFilter">
+      <option value="All">All Categories</option>
+      <option value="Burgers">Burgers</option>
+      <option value="Pizza">Pizza</option>
+      <option value="Wraps">Wraps</option>
+      <option value="Pasta">Pasta</option>
+      <option value="Sides">Sides</option>
+    </select>
+    <select id="sortFilter" onchange="sortMenu()">
+      <option value="none">Sort By</option>
+      <option value="price-low">Price: Low to High</option>
+      <option value="price-high">Price: High to Low</option>
+      <option value="name">Name (A–Z)</option>
+    </select>
+    <button onclick="applyFilter()">Filter</button>
+  </div>
+
+  <div class="layout-icons">
+    <button onclick="setLayout('grid4')" title="4 Columns">
+      <img src="/static/images/grid4.png" alt="4-column">
+    </button>
+    <button onclick="setLayout('grid6')" title="6 Columns">
+      <img src="/static/images/grid6.png" alt="6-column">
+    </button>
+    <button onclick="setLayout('list')" title="List View">
+      <img src="/static/images/listview.png" alt="List View">
+    </button>
+  </div>
+
+  <!-- Dark Mode Toggle -->
+  <div class="theme-toggle">
+    <button id="themeButton" onclick="toggleTheme()">🌙</button>
+  </div>
+</section>
+
+<!-- Menu Items -->
+<div class="menu-container" id="menuContainer">
+  {% for food in foods %}
+  <div class="food-card" data-name="{{ food.name }}" data-category="{{ food.category }}">
+    <img src="{{ food.image or '/static/images/default.jpg' }}" alt="{{ food.name }}">
+    <div class="food-info">
+      <h3>{{ food.name }}</h3>
+      <p>${{ "%.2f"|format(food.price) }}</p>
+      <!-- <p class="category">{{ food.category }}</p> -->
+      <button onclick="addToCart('{{ food.id }}', '{{ food.name }}', '{{ food.price }}')">Add to Cart</button>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div id="toast" class="toast">Added to Cart!</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

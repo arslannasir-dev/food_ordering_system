@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Guest Checkout | QuickBite</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header>
+  <h1>🍔 QuickBite</h1>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/menu">Menu</a>
+    <a href="/cart">Cart</a>
+  </nav>
+</header>
+
+<section class="checkout-form">
+  <h2>Guest Checkout</h2>
+  <form id="guestForm">
+    <input type="text" id="first_name" placeholder="First Name" required>
+    <input type="text" id="last_name" placeholder="Last Name" required>
+    <input type="email" id="email" placeholder="Email (must end with .com)" required>
+    <input type="tel" id="phone" placeholder="Phone (11 digits)" required>
+    <textarea id="address" placeholder="Address" required></textarea>
+    <button type="submit">Confirm Order</button>
+  </form>
+</section>
+
+<script>
+document.getElementById('guestForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+
+  const payload = {
+    first_name: document.getElementById('first_name').value.trim(),
+    last_name: document.getElementById('last_name').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    phone: document.getElementById('phone').value.trim(),
+    address: document.getElementById('address').value.trim(),
+    total: total,
+    cart_items: cart.map(item => ({
+      id: item.id || null,
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity
+    }))
+  };
+
+  const res = await fetch('/guest_checkout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+
+  const result = await res.json();
+  if (result.success) {
+    alert('✅ Order placed successfully!');
+    localStorage.removeItem('cart');
+    window.location.href = '/thankyou';
+  } else {
+    alert(result.error || 'Error placing order');
+  }
+});
+</script>
+
+</body>
+</html>

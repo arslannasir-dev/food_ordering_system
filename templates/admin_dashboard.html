@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard | QuickBite</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body { background: #fafafa; }
+    .dashboard-container {
+      max-width: 1200px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    h2 { color: #ff7b00; text-align: center; }
+    nav button {
+      background: #ff7b00;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    nav button.active {
+      background: #e66b00;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🍔 QuickBite Admin Dashboard</h1>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/menu">Menu</a>
+    <a href="/cart">Cart</a>
+    <a href="/admin_login">Logout</a>
+  </nav>
+</header>
+
+<div class="dashboard-container">
+  <nav style="text-align:center;">
+    <button class="tab-btn active" onclick="showTab('users')">👥 Users</button>
+    <button class="tab-btn" onclick="showTab('orders')">🛍 Orders</button>
+    <button class="tab-btn" onclick="showTab('items')">🍔 Order Items</button>
+  </nav>
+
+  <!-- USERS -->
+  <div id="users" class="tab-content active">
+    <h2>All Users</h2>
+    <table id="userTable" class="display">
+      <thead>
+        <tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Address</th><th>Type</th></tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr>
+          <td>{{ user.id }}</td>
+          <td>{{ user.first_name }} {{ user.last_name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone }}</td>
+          <td>{{ user.address }}</td>
+          <td>{{ user.type }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ORDERS -->
+  <div id="orders" class="tab-content">
+    <h2>All Orders</h2>
+    <table id="orderTable" class="display">
+      <thead>
+        <tr><th>ID</th><th>User ID</th><th>Name</th><th>Email</th><th>Total ($)</th><th>Status</th><th>Date</th></tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr>
+          <td>{{ order.id }}</td>
+          <td>{{ order.user_id or 'Guest' }}</td>
+          <td>{{ order.customer_name }}</td>
+          <td>{{ order.email }}</td>
+          <td>{{ '%.2f'|format(order.total_amount) }}</td>
+          <td>{{ order.status }}</td>
+          <td>{{ order.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ORDER ITEMS -->
+  <div id="items" class="tab-content">
+    <h2>Order Items</h2>
+    <table id="itemTable" class="display">
+      <thead>
+        <tr><th>ID</th><th>Order ID</th><th>Food ID</th><th>Quantity</th><th>Price ($)</th></tr>
+      </thead>
+      <tbody>
+        {% for item in order_items %}
+        <tr>
+          <td>{{ item.id }}</td>
+          <td>{{ item.order_id }}</td>
+          <td>{{ item.food_id }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ '%.2f'|format(item.price) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script>
+function showTab(tabName) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.getElementById(tabName).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+$(document).ready(function() {
+  $('#userTable').DataTable();
+  $('#orderTable').DataTable();
+  $('#itemTable').DataTable();
+});
+</script>
+
+</body>
+</html>

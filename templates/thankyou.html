@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Thank You | QuickBite</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header>
+  <h1>🍔 QuickBite</h1>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/menu">Menu</a>
+  </nav>
+</header>
+
+<section class="thankyou">
+  <h2>🎉 Thank You for Your Order!</h2>
+  <p>Your delicious meal is being prepared and will arrive soon.</p>
+  <p>Estimated Delivery: <strong id="final-eta"></strong></p>
+  <a href="/menu" class="back-btn">Order More</a>
+</section>
+
+<script>
+  // reuse ETA if available
+  const eta = localStorage.getItem('eta') || '30 min';
+  document.getElementById('final-eta').textContent = eta;
+</script>
+<script>
+  // simple confetti burst
+  function celebrate() {
+    const duration = 2 * 1000;
+    const end = Date.now() + duration;
+
+    (function frame() {
+      const particle = document.createElement('div');
+      particle.textContent = '🎉';
+      particle.style.position = 'fixed';
+      particle.style.left = Math.random() * 100 + 'vw';
+      particle.style.top = Math.random() * 100 + 'vh';
+      particle.style.fontSize = '20px';
+      particle.style.opacity = Math.random();
+      document.body.appendChild(particle);
+      setTimeout(() => particle.remove(), 2000);
+
+      if (Date.now() < end) requestAnimationFrame(frame);
+    })();
+  }
+  celebrate();
+</script>
+</body>
+</html>

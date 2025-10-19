@@ -148,6 +148,22 @@
     </table>
   </div>
 </div>
+<!-- ====== ANALYTICS SECTION ====== -->
+<div style="max-width: 1200px; margin: 40px auto; background: #fff; border-radius: 16px; padding: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); text-align:center;">
+  <h2 style="color:#ff7b00;">📊 Analytics Overview</h2>
+  
+  <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:40px; margin-top:30px;">
+    <div style="width:500px;">
+      <h3>Sales per Day</h3>
+      <canvas id="salesChart" width="500" height="300"></canvas>
+    </div>
+
+    <div style="width:400px;">
+      <h3>Orders by Type</h3>
+      <canvas id="typeChart" width="400" height="300"></canvas>
+    </div>
+  </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -269,7 +285,6 @@ if (orders.length > 0) {
   document.getElementById('typeChart').outerHTML = "<p style='text-align:center;color:#999;'>No data to display</p>";
 }
 </script>
-
 
 
 </body>

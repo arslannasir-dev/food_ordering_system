@@ -323,7 +323,29 @@ def admin_dashboard():
         order_items=order_items,
         orders_json=order_list  # ✅ pass this version for Chart.js
     )
+@app.route('/update_order_status', methods=['POST'])
+def update_order_status():
+    try:
+        data = request.get_json()
+        order_id = data.get('order_id')
+        new_status = data.get('status', 'Delivered')
 
+        if not order_id:
+            return jsonify({"error": "Missing order_id"}), 400
+
+        order = Order.query.get(order_id)
+        if not order:
+            return jsonify({"error": f"Order {order_id} not found"}), 404
+
+        order.status = new_status
+        db.session.commit()
+
+        print(f"✅ Order #{order_id} marked as {new_status}")
+        return jsonify({"success": True, "status": new_status})
+
+    except Exception as e:
+        print("❌ Error updating order:", e)
+        return jsonify({"error": str(e)}), 500
 
 
 

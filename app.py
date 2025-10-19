@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from models import db, Food, Order, User, OrderItem, initialize_database
 from datetime import datetime
-import re
+import re , os
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -323,6 +324,45 @@ def admin_dashboard():
         order_items=order_items,
         orders_json=order_list  # ✅ pass this version for Chart.js
     )
+
+UPLOAD_FOLDER = 'static/images'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+@app.route('/upload_image', methods=['POST'])
+def upload_image():
+    if 'file' not in request.files:
+        return jsonify({'success': False, 'error': 'No file uploaded'})
+
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'success': False, 'error': 'Empty filename'})
+
+    filename = secure_filename(file.filename)
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    file.save(filepath)
+
+    return jsonify({'success': True, 'path': f'/static/images/{filename}'})
+
+
+@app.route('/add_item', methods=['POST'])
+def add_item():
+    try:
+        data = request.get_json()
+        new_food = Food(
+            name=data['name'],
+            price=float(data['price']),
+            image=data['image'],
+            category=data['category']
+        )
+        db.session.add(new_food)
+        db.session.commit()
+        return jsonify({"success": True})
+    except Exception as e:
+        print("❌ Error adding item:", e)
+        return jsonify({"success": False, "error": str(e)})
+
+
+
 @app.route('/update_order_status', methods=['POST'])
 def update_order_status():
     try:

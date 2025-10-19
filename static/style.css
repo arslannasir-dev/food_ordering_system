@@ -42,7 +42,7 @@ header a:hover {
   justify-content: center;
   align-items: center;
   height: 90vh;
-  background: url('/static/images/heron.jpg') center/cover no-repeat;
+  background: url('/static/images/herolast.jpg') center/cover no-repeat;
   color: #fff;
   text-shadow: 0 2px 5px rgba(0,0,0,0.5);
 }
@@ -451,19 +451,23 @@ header a:hover {
 
 /* Button styling */
 .menu-btn {
-  background: #ff7b00;
-  color: #fff;
+  background-color: #ff7b00;
+  color: white;
   border: none;
-  padding: 12px 28px;
+  padding: 14px 32px;
   border-radius: 30px;
+  font-size: 1rem;
   font-weight: 600;
-  margin-top: 40px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
 }
 
 .menu-btn:hover {
-  background: #e66b00;
+  background-color: #e66b00;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 10px rgba(255, 123, 0, 0.4);
 }
 
 /* === FOOTER === */
@@ -1333,4 +1337,173 @@ body {
 .btn-small.disabled {
   background: #ccc;
   cursor: not-allowed;
+}
+
+/* Add Item Button */
+.add-item-container {
+  text-align: right;
+  margin: 20px 40px;
+}
+
+.add-item-btn {
+  background-color: #ff7b00;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-item-btn:hover {
+  background-color: #e66b00;
+  transform: translateY(-3px);
+}
+
+/* Modal Styling */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content h2 {
+  margin-bottom: 15px;
+  color: #ff7b00;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.modal-content button {
+  width: 100%;
+  padding: 10px;
+  background-color: #ff7b00;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modal-content button:hover {
+  background-color: #e66b00;
+}
+
+.close {
+  float: right;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* === HERO SECTION === */
+.hero {
+  position: relative;
+  background: url("/static/images/herolast.jpg") no-repeat center center/cover;
+  height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-left: 8%;
+  padding-top: 200px; /* pushes content downward */
+  color: #fff;
+}
+
+.hero-content {
+  max-width: 600px;
+  text-align: left;
+  animation: fadeIn 1s ease;
+}
+
+.hero-content h1 {
+  font-size: 5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+}
+
+.hero-content h1 span {
+  color: #ff7b00;
+}
+
+.hero-btn {
+  margin-top: 25px;
+  display: inline-block;
+  background-color: #ff7b00;
+  color: white;
+  padding: 14px 36px;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.hero-btn:hover {
+  background-color: #e66b00;
+  transform: translateY(-4px);
+  box-shadow: 0 6px 15px rgba(255, 123, 0, 0.5);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+  .hero {
+    justify-content: center;
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .hero-content h1 {
+    font-size: 3rem;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* subtle dark overlay */
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2; /* ensures text appears above the overlay */
 }

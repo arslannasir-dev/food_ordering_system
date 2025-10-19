@@ -147,7 +147,55 @@
       </tbody>
     </table>
   </div>
+  <!-- Add Item Button -->
+    <div class="add-item-container">
+        <button class="add-item-btn" onclick="openAddItemForm()">➕ Add New Item</button>
+    </div>
 </div>
+
+<!-- Add Item Modal -->
+<div id="addItemModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeAddItemForm()">&times;</span>
+    <h2>Add New Food Item</h2>
+    <form id="addItemForm" enctype="multipart/form-data">
+      
+      <label>Name</label>
+      <input type="text" id="foodName" placeholder="Food name" required>
+
+      <label>Price</label>
+      <input type="number" id="foodPrice" placeholder="Price" step="0.01" required>
+
+      <label>Category</label>
+      <select id="foodCategory" required>
+        <option value="">-- Select Category --</option>
+        <option value="Burgers">Burgers</option>
+        <option value="Pizza">Pizza</option>
+        <option value="Wraps">Wraps</option>
+        <option value="Pasta">Pasta</option>
+        <option value="Sides">Sides</option>
+        <option value="Biryani">Biryani</option>
+        <option value="Fast Food">Fast Food</option>
+      </select>
+
+      <label>Choose Existing Image</label>
+      <select id="foodImage">
+        <option value="/static/images/burger.jpg">Burger</option>
+        <option value="/static/images/pizza.jpg">Pizza</option>
+        <option value="/static/images/fries.jpg">Fries</option>
+        <option value="/static/images/wrap.jpg">Wrap</option>
+        <option value="/static/images/pasta.jpg">Pasta</option>
+        <option value="/static/images/biryani.jpg">Biryani</option>
+      </select>
+
+      <p style="text-align:center; color:#777; margin:8px 0;">— or upload new image —</p>
+      <input type="file" id="uploadImage" accept="image/*">
+
+      <button type="submit">Add Food Item</button>
+    </form>
+  </div>
+</div>
+
 <!-- ====== ANALYTICS SECTION ====== -->
 <div style="max-width: 1200px; margin: 40px auto; background: #fff; border-radius: 16px; padding: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); text-align:center;">
   <h2 style="color:#ff7b00;">📊 Analytics Overview</h2>
@@ -285,6 +333,63 @@ if (orders.length > 0) {
   document.getElementById('typeChart').outerHTML = "<p style='text-align:center;color:#999;'>No data to display</p>";
 }
 </script>
+
+
+<script>
+function openAddItemForm() {
+  document.getElementById('addItemModal').style.display = 'flex';
+}
+
+function closeAddItemForm() {
+  document.getElementById('addItemModal').style.display = 'none';
+}
+
+document.getElementById('addItemForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById('foodName').value.trim();
+  const price = parseFloat(document.getElementById('foodPrice').value);
+  const category = document.getElementById('foodCategory').value;
+  const existingImage = document.getElementById('foodImage').value;
+  const uploadInput = document.getElementById('uploadImage');
+  let imagePath = existingImage;
+
+  // If admin uploads a file, use that instead
+  if (uploadInput.files.length > 0) {
+    const formData = new FormData();
+    formData.append('file', uploadInput.files[0]);
+
+    const uploadRes = await fetch('/upload_image', {
+      method: 'POST',
+      body: formData
+    });
+
+    const uploadResult = await uploadRes.json();
+    if (uploadResult.success) {
+      imagePath = uploadResult.path;
+    } else {
+      alert('Image upload failed, using default selection.');
+    }
+  }
+
+  const payload = { name, price, category, image: imagePath };
+
+  const res = await fetch('/add_item', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+
+  const result = await res.json();
+  if (result.success) {
+    alert('✅ Item added successfully!');
+    location.reload();
+  } else {
+    alert(result.error || 'Error adding item');
+  }
+});
+</script>
+
 
 
 </body>

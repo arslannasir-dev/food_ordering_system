@@ -1,0 +1,220 @@
+💻 How to Run QuickBite (Flask Web App) Locally on Your Laptop
+
+Below are the step-by-step instructions for running your QuickBite online food ordering system from GitHub using Visual Studio Code (VS Code).
+
+🧩 1️⃣ Clone the Repository
+
+Open VS Code
+
+Go to View → Terminal
+
+In the terminal, run this command to clone your GitHub repo:
+
+git clone https://github.com/<your-username>/<your-repository-name>.git
+
+
+(Replace with your actual GitHub repo link — for example:)
+
+git clone https://github.com/danishmuzzafar/quickbite.git
+
+
+Navigate into the project folder:
+
+cd quickbite
+
+🐍 2️⃣ Check Python Installation
+
+You need Python 3.10 or higher.
+To check:
+
+python --version
+
+
+If it doesn’t show a version, download and install Python from:
+🔗 https://www.python.org/downloads/
+
+⚙️ 3️⃣ Create a Virtual Environment (venv)
+
+Inside the project folder, create an isolated environment so dependencies don’t conflict with your global setup.
+
+Run:
+
+python -m venv venv
+
+
+Then activate it:
+
+On Windows (PowerShell):
+
+venv\Scripts\activate
+
+
+On Mac/Linux:
+
+source venv/bin/activate
+
+
+You’ll know it’s activated because your terminal will show:
+
+(venv)
+
+📦 4️⃣ Install Dependencies
+
+Now install all required Python packages from requirements.txt:
+
+pip install -r requirements.txt
+
+
+This will install:
+
+Flask
+
+SQLAlchemy
+
+Flask-SQLAlchemy
+
+Flask-Migrate
+
+Gunicorn (for deployment)
+
+and other necessary libraries
+
+🗃️ 5️⃣ Initialize the Database
+
+The app uses SQLite as the database.
+
+If your repo already includes instance/database.db, you’re good — skip this step.
+
+Otherwise, run these commands in the Python shell inside VS Code:
+
+python
+
+
+Then:
+
+from app import app, db
+with app.app_context():
+    db.create_all()
+exit()
+
+
+✅ This creates a new SQLite database file at:
+
+instance/database.db
+
+🍔 6️⃣ Run the Flask Server
+
+Start the development server using:
+
+python app.py
+
+
+If your app.py has this line:
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+
+Then it will launch automatically.
+
+✅ After starting, you’ll see output like:
+
+ * Running on http://127.0.0.1:5000
+
+
+Copy and open that URL in your browser.
+
+🌐 7️⃣ Explore the Website
+
+You can now use QuickBite locally:
+
+Page	URL	Description
+🏠 Home	http://127.0.0.1:5000/	Hero banner + intro
+🍕 Menu	/menu	All food items (dynamic from DB)
+🛒 Cart	/cart	Add, view, and checkout
+👤 Checkout	/login_checkout	Guest / register / admin login
+👑 Admin Dashboard	/admin_dashboard	Orders, users, charts, add items
+🔑 8️⃣ Admin Login (Default Credentials)
+
+If the database has the default admin from setup, use:
+
+Email: danish@gmail.com
+Password: admin
+
+
+Otherwise, you can manually insert one in DB or via script:
+
+from app import app, db
+from models import User
+
+with app.app_context():
+    admin = User(first_name="Danish", last_name="Muzzafar",
+                 email="danish@gmail.com", phone="12123456789",
+                 address="Birmingham", password="admin", type="admin")
+    db.session.add(admin)
+    db.session.commit()
+
+🖼️ 9️⃣ Folder Explanation (for Developers)
+Folder/File	Purpose
+app.py	Main Flask app file (all routes)
+models.py	Database models for User, Food, Order, etc.
+static/	CSS, JS, and images
+templates/	HTML templates for each page
+instance/database.db	SQLite database file
+requirements.txt	Project dependencies
+🧰 10️⃣ Common Issues & Fixes
+Issue	Cause	Fix
+ModuleNotFoundError: No module named 'flask'	Flask not installed	pip install flask
+sqlite3.OperationalError: no such table	DB not created	Run db.create_all() inside app context
+Page not loading images	Wrong static path	Ensure /static/... paths are correct
+Port already in use	Flask already running	Stop with Ctrl + C and rerun
+🚀 11️⃣ Optional: Run via VS Code Debug
+
+In VS Code:
+
+Go to Run → Add Configuration
+
+Choose Flask
+
+Set "app.py" as your entry file
+
+Click ▶️ Run — Flask server will start automatically in debug mode
+
+🔒 12️⃣ Stop the Server
+
+When done, stop it with:
+
+Ctrl + C
+
+
+To deactivate the virtual environment:
+
+deactivate
+
+✅ Summary of Commands
+# 1. Clone repo
+git clone https://github.com/yourname/quickbite.git
+cd quickbite
+
+# 2. Create venv
+python -m venv venv
+venv\Scripts\activate  # (Windows)
+# or
+source venv/bin/activate  # (Mac/Linux)
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Create DB (if not exists)
+python
+>>> from app import app, db
+>>> with app.app_context(): db.create_all()
+>>> exit()
+
+# 5. Run Flask app
+python app.py
+
+🧡 That’s it!
+
+Your QuickBite Online Food Ordering System will now run on your local machine.
+You can modify templates, add new foods, or test orders right from VS Code.

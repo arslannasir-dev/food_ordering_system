@@ -16,14 +16,37 @@
   </nav>
 </header>
 
-<section class="checkout-form">
+<!-- <section class="checkout-form">
   <h2>Admin Login</h2>
   <form id="adminForm">
     <input type="email" id="email" placeholder="Admin Email" required>
     <input type="password" id="password" placeholder="Password" required>
     <button type="submit">Login</button>
   </form>
+</section> -->
+
+<section class="admin-login-container">
+  <div class="admin-login-card">
+    <h2>Admin Login</h2>
+
+    <form id="adminForm">
+
+      <div class="input-group">
+        <span class="input-icon">📧</span>
+        <input type="email" id="email" placeholder="Admin Email" required>
+      </div>
+
+      <div class="input-group">
+        <span class="input-icon">🔒</span>
+        <input type="password" id="password" placeholder="Password" required>
+      </div>
+
+      <button type="submit" class="admin-login-btn">Login</button>
+
+    </form>
+  </div>
 </section>
+
 
 <script>
 document.getElementById('adminForm').addEventListener('submit', async (e) => {

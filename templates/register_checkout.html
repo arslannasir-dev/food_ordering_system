@@ -16,7 +16,7 @@
   </nav>
 </header>
 
-<section class="checkout-form">
+<!-- <section class="checkout-form">
   <h2>Create Account & Place Order</h2>
   <form id="registerForm">
     <input type="text" id="first_name" placeholder="First Name" required>
@@ -27,6 +27,45 @@
     <input type="password" id="password" placeholder="Create Password" required>
     <button type="submit">Create Account & Confirm Order</button>
   </form>
+</section>
+<script> -->
+
+<section class="register-checkout-container">
+  <div class="register-checkout-card">
+
+    <h2>Create Account & Place Order</h2>
+
+    <form id="registerForm">
+
+      <div class="input-group">
+        <span class="input-icon">👤</span>
+        <input type="text" id="first_name" placeholder="First Name" required>
+      </div>
+      <div class="input-group">
+        <span class="input-icon">👤</span>
+        <input type="text" id="last_name" placeholder="Last Name" required>
+      </div>
+      <div class="input-group">
+        <span class="input-icon">📧</span>
+        <input type="email" id="email" placeholder="Email (must end with .com)" required>
+      </div>
+      <div class="input-group">
+        <span class="input-icon">📱</span>
+        <input type="tel" id="phone" placeholder="Phone (11 digits)" required>
+      </div>
+      <div class="input-group textarea-group">
+        <span class="input-icon">📍</span>
+        <textarea id="address" placeholder="Address" required></textarea>
+      </div>
+      <div class="input-group">
+        <span class="input-icon">🔑</span>
+        <input type="password" id="password" placeholder="Create Password" required>
+      </div>
+      <button type="submit" class="register-checkout-btn">Create Account & Confirm Order</button>
+
+    </form>
+
+  </div>
 </section>
 <script>
 document.getElementById('registerForm').addEventListener('submit', async (e) => {

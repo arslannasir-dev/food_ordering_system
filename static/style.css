@@ -1586,3 +1586,263 @@ body {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+/* === GUEST CHECKOUT UI UPGRADE === */
+
+.guest-checkout-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: 90vh;
+  background: linear-gradient(135deg, #ff7b00, #ffb347);
+}
+
+.guest-checkout-card {
+  background: #fff;
+  width: 420px;
+  padding: 40px 35px;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  text-align: center;
+  animation: fadeIn 0.8s ease;
+}
+
+.guest-checkout-card h2 {
+  color: #ff7b00;
+  margin-bottom: 25px;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  padding: 12px 45px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+  transition: 0.3s;
+  resize: none;
+}
+
+.input-group textarea {
+  height: 90px;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  border-color: #ff7b00;
+  box-shadow: 0 0 6px rgba(255,123,0,0.3);
+}
+
+.textarea-group .input-icon {
+  top: 20px;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  opacity: 0.7;
+}
+
+.guest-checkout-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #ff7b00;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.guest-checkout-btn:hover {
+  background: #e66b00;
+  transform: translateY(-2px);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === REGISTER CHECKOUT UI UPGRADE === */
+
+.register-checkout-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: 95vh;
+  background: linear-gradient(135deg, #ff7b00, #ffb347);
+}
+
+.register-checkout-card {
+  background: #fff;
+  width: 450px;
+  padding: 40px 35px;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  text-align: center;
+  animation: fadeIn 0.8s ease;
+}
+
+.register-checkout-card h2 {
+  color: #ff7b00;
+  margin-bottom: 25px;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  padding: 12px 45px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+  transition: 0.3s;
+  resize: none;
+}
+
+.input-group textarea {
+  height: 90px;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  border-color: #ff7b00;
+  box-shadow: 0 0 6px rgba(255,123,0,0.3);
+}
+
+.textarea-group .input-icon {
+  top: 18px;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  opacity: 0.7;
+}
+
+.register-checkout-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #ff7b00;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.register-checkout-btn:hover {
+  background: #e66b00;
+  transform: translateY(-2px);
+}
+
+/* Smooth Form Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === LOGIN CHECKOUT UI UPGRADE === */
+
+.login-checkout-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: 90vh;
+  background: linear-gradient(135deg, #ff7b00, #ffb347);
+}
+
+.login-checkout-card {
+  background: #fff;
+  width: 420px;
+  padding: 40px 35px;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  text-align: center;
+  animation: fadeIn 0.8s ease;
+}
+
+.login-checkout-card h2 {
+  color: #ff7b00;
+  margin-bottom: 25px;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 45px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.input-group input:focus {
+  border-color: #ff7b00;
+  box-shadow: 0 0 6px rgba(255,123,0,0.3);
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  opacity: 0.7;
+}
+
+.login-checkout-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #ff7b00;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.login-checkout-btn:hover {
+  background: #e66b00;
+  transform: translateY(-2px);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

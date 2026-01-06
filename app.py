@@ -6,8 +6,8 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-BASE_DIR = os.path.abspath(os.path.dirname(__file__)) #new
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(BASE_DIR, 'database.db') # new
+# BASE_DIR = os.path.abspath(os.path.dirname(__file__)) #new
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL") # new
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
